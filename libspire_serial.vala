@@ -23,17 +23,16 @@
 using GLib;
 /// <summary>
 /// Importacion de funciones externas de manejos de puerto serial Multiplataforma.
-/// Modificar serial.c segun el sistema operativo que este usando
+/// Estas funciones externas provienen de serial.c cuando se está compilando para Windows
 /// </summary>
+/// \hideinitializer.
 extern int Open_Port(string Puerto);
 extern int Set_Configure_Port(int fd, uint BaudRate, uint Bits, uint Parity, uint BitsStop);
 extern long Write_Port(int fd, string buf, int SizeData);
-//extern long Getc_Port(int fd, void* Data);
 extern char Getc(int fd);
 extern int Kbhit_Port(int fd);
 extern int Close_Port(int fd);
 extern int Set_Hands_Haking(int fd, int FlowControl);
-//extern int Set_BaudRate(int fd, uint BaudRate);
 extern int IO_Blocking(int fd, int Modo);
 extern int Clean_Buffer(int fd);
 extern int Setup_Buffer(int fd,  ulong InQueue, ulong OutQueue);
@@ -51,49 +50,6 @@ namespace edwinspire {
  */
 	namespace Ports {
 	
-	
-		[Description(nick = "HandShaking", blurb = "Especifica el protocolo de control utilizado para establecer la comunicacion con el puerto serie")]
-		public enum HandShaking {
-			[Description(nick = "NONE", blurb = "No se utiliza ningun control para el protocol de enlace")]
-			NONE,
-			[Description(nick = "RTS-CTS", blurb = "Controles por hardware, Solicitud de encio (RTS) y Listo para enviar (CTS)")]
-			RTS_CTS,
-			[Description(nick = "XOnXOff", blurb = "Protocolo de control de software XON/XOFF")]
-			XOnXOff,
-			[Description(nick = "DTR-DSR", blurb = "Utiliza tanto RTS CTS como XON/XOFF")]
-			DTR_DSR
-		}
-		[Description(nick = "Parity", blurb = "Especifica el bit de paridad")]
-		public enum Parity {
-			[Description(nick = "NONE", blurb = "No se produce una comprobación de paridad")]
-			NONE, 
-			[Description(nick = "ODD", blurb = "Establece el bit de paridad de forma que el recuento de bits establecidos sea un número impar")]
-			ODD, 
-			[Description(nick = "EVEN", blurb = "Establece el bit de paridad de forma que el recuento de bits establecidos sea un número par")]
-			EVEN, 
-			[Description(nick = "MARK", blurb = "Establece el conjunto de bits de paridad en 1")]
-			MARK, 
-			[Description(nick = "SPACE", blurb = "Establece el conjunto de bits de paridad en 0")]
-			SPACE
-		}
-		[Description(nick = "StopBits", blurb = "Especifica el número de bits de parada utilizado")]
-		public enum StopBits {
-			[Description(nick = "NONE", blurb = "No se utiliza ningún bit de parada")]
-			NONE, 
-			[Description(nick = "ONE", blurb = "Se utiliza un bit de parada")]
-			ONE, 
-			[Description(nick = "TWO", blurb = "Se utilizan dos bits de parada")]
-			TWO
-		}
-		[Description(nick = "Data Status", blurb = "Estado del modem")]
-		public enum DataStatus {
-			[Description(nick = "None", blurb = "Modem no eta realizando ninguna accion")]
-			None, 
-			[Description(nick = "Sending", blurb = "Enviando datos al modem")]
-			Sending, 
-			[Description(nick = "Receiving", blurb = "Recibiendo datos del modem")]
-			Receiving
-		}
 		public class Configure:GLib.Object {
 			public string Port {
 				set;
@@ -145,10 +101,10 @@ namespace edwinspire {
 			}
 		}
 		
-/**
+
+/*! \class SerialPort:Configure
  * The SerialPort class contains methods for communications with devices via serial port.
- *
- */		
+ */	
 		public class SerialPort:Configure {
 			public signal void Status(DataStatus Status);
 //			
@@ -281,7 +237,10 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
-			//Bits por leer
+			
+    /*! \property BytesToRead
+    * 
+    */
 			public int BytesToRead {
 				get {
 					return Kbhit_Port(Gestor);
@@ -324,8 +283,6 @@ namespace edwinspire {
 				}
 				if(this.IsEnableAndOpen()) {
 					if(Data_.length>0) {
-						//ulong pausaEntreBits = (ulong)this.BaudRateTouseg();
-						//print("pausaEntreBits %s\n", pausaEntreBits.to_string());
 						StringBuilder DatoC = new StringBuilder();
 						int i = 0;
 						this.Status(DataStatus.Sending);

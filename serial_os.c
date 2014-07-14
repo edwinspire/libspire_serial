@@ -38,6 +38,11 @@
     #define XONXOFF   2
     #define SOFT      2
     
+/// <summary>
+/// This part of code compiled for Windows platforms when it is passed as a parameter to the compiler -D _WIN_SPIRE_
+/// For this section of code has been based on the library lnxcomm
+/// http://lnxcomm.sourceforge.net/data/?page_id=4
+/// </summary>    
     HANDLE Open_Port(char COMx[])
     {
          HANDLE fd;
@@ -378,6 +383,7 @@ return c;
     }
 #endif
 
+
 #ifdef _LNX_SPIRE_
 
     #include <stdio.h>   /* Standard input/output definitions. */
@@ -413,6 +419,9 @@ return c;
 
     int Kbhit_Port(HANDLE fd);
     
+/// <summary>
+/// This part of code compiled for Linux platforms when it is passed as a parameter to the compiler -D _LNX_SPIRE_
+/// </summary>    
     HANDLE Open_Port(char COMx[])
     {
 	int fd; // File descriptor for the port.

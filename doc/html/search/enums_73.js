@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['stopbits',['StopBits',['../namespaceedwinspire_1_1_ports.html#a2e4c31ec0a94db405865b7c241717fbe',1,'edwinspire::Ports']]]
+  ['stopbits',['StopBits',['../namespaceedwinspire_1_1_ports.html#a58bd73af0a389a7cd6e07686e895e849',1,'edwinspire::Ports']]]
 ];

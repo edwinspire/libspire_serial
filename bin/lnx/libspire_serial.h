@@ -15,14 +15,6 @@
 G_BEGIN_DECLS
 
 
-#define EDWINSPIRE_PORTS_TYPE_HAND_SHAKING (edwinspire_ports_hand_shaking_get_type ())
-
-#define EDWINSPIRE_PORTS_TYPE_PARITY (edwinspire_ports_parity_get_type ())
-
-#define EDWINSPIRE_PORTS_TYPE_STOP_BITS (edwinspire_ports_stop_bits_get_type ())
-
-#define EDWINSPIRE_PORTS_TYPE_DATA_STATUS (edwinspire_ports_data_status_get_type ())
-
 #define EDWINSPIRE_PORTS_TYPE_CONFIGURE (edwinspire_ports_configure_get_type ())
 #define EDWINSPIRE_PORTS_CONFIGURE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_PORTS_TYPE_CONFIGURE, edwinspirePortsConfigure))
 #define EDWINSPIRE_PORTS_CONFIGURE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_PORTS_TYPE_CONFIGURE, edwinspirePortsConfigureClass))
@@ -33,6 +25,12 @@ G_BEGIN_DECLS
 typedef struct _edwinspirePortsConfigure edwinspirePortsConfigure;
 typedef struct _edwinspirePortsConfigureClass edwinspirePortsConfigureClass;
 typedef struct _edwinspirePortsConfigurePrivate edwinspirePortsConfigurePrivate;
+
+#define EDWINSPIRE_PORTS_TYPE_PARITY (edwinspire_ports_parity_get_type ())
+
+#define EDWINSPIRE_PORTS_TYPE_STOP_BITS (edwinspire_ports_stop_bits_get_type ())
+
+#define EDWINSPIRE_PORTS_TYPE_HAND_SHAKING (edwinspire_ports_hand_shaking_get_type ())
 
 #define EDWINSPIRE_PORTS_TYPE_SERIAL_PORT (edwinspire_ports_serial_port_get_type ())
 #define EDWINSPIRE_PORTS_SERIAL_PORT(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_PORTS_TYPE_SERIAL_PORT, edwinspirePortsSerialPort))
@@ -45,12 +43,6 @@ typedef struct _edwinspirePortsSerialPort edwinspirePortsSerialPort;
 typedef struct _edwinspirePortsSerialPortClass edwinspirePortsSerialPortClass;
 typedef struct _edwinspirePortsSerialPortPrivate edwinspirePortsSerialPortPrivate;
 
-#define EDWINSPIRE_PORTS_TYPE_DTMF (edwinspire_ports_dtmf_get_type ())
-
-#define EDWINSPIRE_PORTS_TYPE_RESPONSE_CODE (edwinspire_ports_response_code_get_type ())
-
-#define EDWINSPIRE_PORTS_TYPE_CME (edwinspire_ports_cme_get_type ())
-
 #define EDWINSPIRE_PORTS_TYPE_RESPONSE (edwinspire_ports_response_get_type ())
 #define EDWINSPIRE_PORTS_RESPONSE(obj) (G_TYPE_CHECK_INSTANCE_CAST ((obj), EDWINSPIRE_PORTS_TYPE_RESPONSE, edwinspirePortsResponse))
 #define EDWINSPIRE_PORTS_RESPONSE_CLASS(klass) (G_TYPE_CHECK_CLASS_CAST ((klass), EDWINSPIRE_PORTS_TYPE_RESPONSE, edwinspirePortsResponseClass))
@@ -62,7 +54,11 @@ typedef struct _edwinspirePortsResponse edwinspirePortsResponse;
 typedef struct _edwinspirePortsResponseClass edwinspirePortsResponseClass;
 typedef struct _edwinspirePortsResponsePrivate edwinspirePortsResponsePrivate;
 
+#define EDWINSPIRE_PORTS_TYPE_CME (edwinspire_ports_cme_get_type ())
+
 #define EDWINSPIRE_PORTS_TYPE_CMS (edwinspire_ports_cms_get_type ())
+
+#define EDWINSPIRE_PORTS_TYPE_RESPONSE_CODE (edwinspire_ports_response_code_get_type ())
 
 #define EDWINSPIRE_PORTS_TYPE_LAST_CALL_RECEIVED (edwinspire_ports_last_call_received_get_type ())
 typedef struct _edwinspirePortsLastCallReceived edwinspirePortsLastCallReceived;
@@ -78,12 +74,18 @@ typedef struct _edwinspirePortsModem edwinspirePortsModem;
 typedef struct _edwinspirePortsModemClass edwinspirePortsModemClass;
 typedef struct _edwinspirePortsModemPrivate edwinspirePortsModemPrivate;
 
-typedef enum  {
-	EDWINSPIRE_PORTS_HAND_SHAKING_NONE,
-	EDWINSPIRE_PORTS_HAND_SHAKING_RTS_CTS,
-	EDWINSPIRE_PORTS_HAND_SHAKING_XOnXOff,
-	EDWINSPIRE_PORTS_HAND_SHAKING_DTR_DSR
-} edwinspirePortsHandShaking;
+#define EDWINSPIRE_PORTS_TYPE_DATA_STATUS (edwinspire_ports_data_status_get_type ())
+
+#define EDWINSPIRE_PORTS_TYPE_DTMF (edwinspire_ports_dtmf_get_type ())
+
+struct _edwinspirePortsConfigure {
+	GObject parent_instance;
+	edwinspirePortsConfigurePrivate * priv;
+};
+
+struct _edwinspirePortsConfigureClass {
+	GObjectClass parent_class;
+};
 
 typedef enum  {
 	EDWINSPIRE_PORTS_PARITY_NONE,
@@ -100,19 +102,11 @@ typedef enum  {
 } edwinspirePortsStopBits;
 
 typedef enum  {
-	EDWINSPIRE_PORTS_DATA_STATUS_None,
-	EDWINSPIRE_PORTS_DATA_STATUS_Sending,
-	EDWINSPIRE_PORTS_DATA_STATUS_Receiving
-} edwinspirePortsDataStatus;
-
-struct _edwinspirePortsConfigure {
-	GObject parent_instance;
-	edwinspirePortsConfigurePrivate * priv;
-};
-
-struct _edwinspirePortsConfigureClass {
-	GObjectClass parent_class;
-};
+	EDWINSPIRE_PORTS_HAND_SHAKING_NONE,
+	EDWINSPIRE_PORTS_HAND_SHAKING_RTS_CTS,
+	EDWINSPIRE_PORTS_HAND_SHAKING_XOnXOff,
+	EDWINSPIRE_PORTS_HAND_SHAKING_DTR_DSR
+} edwinspirePortsHandShaking;
 
 struct _edwinspirePortsSerialPort {
 	edwinspirePortsConfigure parent_instance;
@@ -123,39 +117,6 @@ struct _edwinspirePortsSerialPort {
 struct _edwinspirePortsSerialPortClass {
 	edwinspirePortsConfigureClass parent_class;
 };
-
-typedef enum  {
-	EDWINSPIRE_PORTS_DTMF_Zero,
-	EDWINSPIRE_PORTS_DTMF_One,
-	EDWINSPIRE_PORTS_DTMF_Two,
-	EDWINSPIRE_PORTS_DTMF_Three,
-	EDWINSPIRE_PORTS_DTMF_Four,
-	EDWINSPIRE_PORTS_DTMF_Five,
-	EDWINSPIRE_PORTS_DTMF_Six,
-	EDWINSPIRE_PORTS_DTMF_Seven,
-	EDWINSPIRE_PORTS_DTMF_Eigth,
-	EDWINSPIRE_PORTS_DTMF_Nine,
-	EDWINSPIRE_PORTS_DTMF_Asterisc,
-	EDWINSPIRE_PORTS_DTMF_Sharp,
-	EDWINSPIRE_PORTS_DTMF_A,
-	EDWINSPIRE_PORTS_DTMF_B,
-	EDWINSPIRE_PORTS_DTMF_C,
-	EDWINSPIRE_PORTS_DTMF_D
-} edwinspirePortsDTMF;
-
-typedef enum  {
-	EDWINSPIRE_PORTS_RESPONSE_CODE_OK = 0,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_CONNECT = 1,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_RING = 2,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_NOCARRIER = 3,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_ERROR = 4,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_NODIALTONE = 5,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_BUSY = 6,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_NOANSWER = 7,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_ERROR_CMS = 98,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_ERROR_CME = 99,
-	EDWINSPIRE_PORTS_RESPONSE_CODE_UNKNOW = 100
-} edwinspirePortsResponseCode;
 
 typedef enum  {
 	EDWINSPIRE_PORTS_CME_PhoneFailure = 0,
@@ -222,6 +183,20 @@ typedef enum  {
 	EDWINSPIRE_PORTS_CMS_None = 1000
 } edwinspirePortsCMS;
 
+typedef enum  {
+	EDWINSPIRE_PORTS_RESPONSE_CODE_OK = 0,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_CONNECT = 1,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_RING = 2,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_NOCARRIER = 3,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_ERROR = 4,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_NODIALTONE = 5,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_BUSY = 6,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_NOANSWER = 7,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_ERROR_CMS = 98,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_ERROR_CME = 99,
+	EDWINSPIRE_PORTS_RESPONSE_CODE_UNKNOW = 100
+} edwinspirePortsResponseCode;
+
 struct _edwinspirePortsResponse {
 	GObject parent_instance;
 	edwinspirePortsResponsePrivate * priv;
@@ -252,11 +227,32 @@ struct _edwinspirePortsModemClass {
 	edwinspirePortsSerialPortClass parent_class;
 };
 
+typedef enum  {
+	EDWINSPIRE_PORTS_DATA_STATUS_None,
+	EDWINSPIRE_PORTS_DATA_STATUS_Sending,
+	EDWINSPIRE_PORTS_DATA_STATUS_Receiving
+} edwinspirePortsDataStatus;
 
-GType edwinspire_ports_hand_shaking_get_type (void) G_GNUC_CONST;
-GType edwinspire_ports_parity_get_type (void) G_GNUC_CONST;
-GType edwinspire_ports_stop_bits_get_type (void) G_GNUC_CONST;
-GType edwinspire_ports_data_status_get_type (void) G_GNUC_CONST;
+typedef enum  {
+	EDWINSPIRE_PORTS_DTMF_Zero,
+	EDWINSPIRE_PORTS_DTMF_One,
+	EDWINSPIRE_PORTS_DTMF_Two,
+	EDWINSPIRE_PORTS_DTMF_Three,
+	EDWINSPIRE_PORTS_DTMF_Four,
+	EDWINSPIRE_PORTS_DTMF_Five,
+	EDWINSPIRE_PORTS_DTMF_Six,
+	EDWINSPIRE_PORTS_DTMF_Seven,
+	EDWINSPIRE_PORTS_DTMF_Eigth,
+	EDWINSPIRE_PORTS_DTMF_Nine,
+	EDWINSPIRE_PORTS_DTMF_Asterisc,
+	EDWINSPIRE_PORTS_DTMF_Sharp,
+	EDWINSPIRE_PORTS_DTMF_A,
+	EDWINSPIRE_PORTS_DTMF_B,
+	EDWINSPIRE_PORTS_DTMF_C,
+	EDWINSPIRE_PORTS_DTMF_D
+} edwinspirePortsDTMF;
+
+
 GType edwinspire_ports_configure_get_type (void) G_GNUC_CONST;
 edwinspirePortsConfigure* edwinspire_ports_configure_new (void);
 edwinspirePortsConfigure* edwinspire_ports_configure_construct (GType object_type);
@@ -264,12 +260,15 @@ const gchar* edwinspire_ports_configure_get_Port (edwinspirePortsConfigure* self
 void edwinspire_ports_configure_set_Port (edwinspirePortsConfigure* self, const gchar* value);
 guint edwinspire_ports_configure_get_BaudRate (edwinspirePortsConfigure* self);
 void edwinspire_ports_configure_set_BaudRate (edwinspirePortsConfigure* self, guint value);
+GType edwinspire_ports_parity_get_type (void) G_GNUC_CONST;
 edwinspirePortsParity edwinspire_ports_configure_get_Parityp (edwinspirePortsConfigure* self);
 void edwinspire_ports_configure_set_Parityp (edwinspirePortsConfigure* self, edwinspirePortsParity value);
+GType edwinspire_ports_stop_bits_get_type (void) G_GNUC_CONST;
 edwinspirePortsStopBits edwinspire_ports_configure_get_StopBitsp (edwinspirePortsConfigure* self);
 void edwinspire_ports_configure_set_StopBitsp (edwinspirePortsConfigure* self, edwinspirePortsStopBits value);
 guint edwinspire_ports_configure_get_DataBits (edwinspirePortsConfigure* self);
 void edwinspire_ports_configure_set_DataBits (edwinspirePortsConfigure* self, guint value);
+GType edwinspire_ports_hand_shaking_get_type (void) G_GNUC_CONST;
 edwinspirePortsHandShaking edwinspire_ports_configure_get_HandShake (edwinspirePortsConfigure* self);
 void edwinspire_ports_configure_set_HandShake (edwinspirePortsConfigure* self, edwinspirePortsHandShaking value);
 gboolean edwinspire_ports_configure_get_Enable (edwinspirePortsConfigure* self);
@@ -300,11 +299,10 @@ gboolean edwinspire_ports_serial_port_get_Blocking (edwinspirePortsSerialPort* s
 void edwinspire_ports_serial_port_set_Blocking (edwinspirePortsSerialPort* self, gboolean value);
 gint edwinspire_ports_serial_port_get_BytesToRead (edwinspirePortsSerialPort* self);
 gboolean edwinspire_ports_serial_port_get_IsOpen (edwinspirePortsSerialPort* self);
-GType edwinspire_ports_dtmf_get_type (void) G_GNUC_CONST;
-GType edwinspire_ports_response_code_get_type (void) G_GNUC_CONST;
-GType edwinspire_ports_cme_get_type (void) G_GNUC_CONST;
 GType edwinspire_ports_response_get_type (void) G_GNUC_CONST;
+GType edwinspire_ports_cme_get_type (void) G_GNUC_CONST;
 GType edwinspire_ports_cms_get_type (void) G_GNUC_CONST;
+GType edwinspire_ports_response_code_get_type (void) G_GNUC_CONST;
 edwinspirePortsResponse* edwinspire_ports_response_new_with_args (edwinspirePortsResponseCode Return, GeeArrayList* Lines, const gchar* raw, edwinspirePortsCME cmeError, edwinspirePortsCMS cmsError);
 edwinspirePortsResponse* edwinspire_ports_response_construct_with_args (GType object_type, edwinspirePortsResponseCode Return, GeeArrayList* Lines, const gchar* raw, edwinspirePortsCME cmeError, edwinspirePortsCMS cmsError);
 edwinspirePortsResponse* edwinspire_ports_response_new (void);
@@ -365,6 +363,8 @@ gboolean edwinspire_ports_modem_AT (edwinspirePortsModem* self);
 gboolean edwinspire_ports_modem_EscapeSequense (edwinspirePortsModem* self);
 gboolean edwinspire_ports_modem_AcceptCall (edwinspirePortsModem* self);
 gboolean edwinspire_ports_modem_ATA (edwinspirePortsModem* self);
+GType edwinspire_ports_data_status_get_type (void) G_GNUC_CONST;
+GType edwinspire_ports_dtmf_get_type (void) G_GNUC_CONST;
 
 
 G_END_DECLS

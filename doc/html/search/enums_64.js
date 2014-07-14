@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['dtmf',['DTMF',['../namespaceedwinspire_1_1_ports.html#af4e0ec730b70610713b98825eb7c6f53',1,'edwinspire::Ports']]]
+  ['datastatus',['DataStatus',['../namespaceedwinspire_1_1_ports.html#a8f46ab15ec2741c3e028c5c5ddff36d3',1,'edwinspire::Ports']]]
 ];

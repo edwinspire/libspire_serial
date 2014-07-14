@@ -121,6 +121,7 @@ namespace edwinspire {
 			public LastCallReceived ();
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
+		[Description (blurb = "GSM Equipment and Network Error Codes", nick = "CME")]
 		public enum CME {
 			PhoneFailure,
 			NoConnectionToPhone,
@@ -162,6 +163,7 @@ namespace edwinspire {
 			None
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
+		[Description (blurb = "These are the error codes for +CMS ERROR", nick = "CMS")]
 		public enum CMS {
 			Phonefailure,
 			SMSServiceOfPhoneReserved,
@@ -258,6 +260,7 @@ namespace edwinspire {
 			SPACE
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
+		[Description (blurb = "Response from modem", nick = "ResponseCode")]
 		public enum ResponseCode {
 			OK,
 			CONNECT,

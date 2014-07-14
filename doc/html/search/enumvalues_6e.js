@@ -1,13 +1,7 @@
 var searchData=
 [
-  ['networkpersonalization_5fpuk_5frequired',['NetworkPersonalization_PUK_Required',['../namespaceedwinspire_1_1_ports.html#ace89e61880474073c93815c34c52fe0da32c11912e97206f90aa59e68bc4a077c',1,'edwinspire::Ports']]],
-  ['networkpersonalizationpin_5frequired',['NetworkPersonalizationPIN_Required',['../namespaceedwinspire_1_1_ports.html#ace89e61880474073c93815c34c52fe0daa0770f76c8a57214a191faed01962cbf',1,'edwinspire::Ports']]],
-  ['networksubsetpersonalization_5fpin_5frequired',['NetworkSubsetPersonalization_PIN_Required',['../namespaceedwinspire_1_1_ports.html#ace89e61880474073c93815c34c52fe0da076732b1615f86059dd0310f825e98d2',1,'edwinspire::Ports']]],
-  ['networksubsetpersonalization_5fpuk_5frequired',['NetworkSubsetPersonalization_PUK_Required',['../namespaceedwinspire_1_1_ports.html#ace89e61880474073c93815c34c52fe0da0c04abc48cfae8dac6cbd1ad3bcf0008',1,'edwinspire::Ports']]],
-  ['networktimeout',['NetworkTimeout',['../namespaceedwinspire_1_1_ports.html#aa6e4441b65db895e600a13038b3d5ff4a4ab8d67ce74f17111c2c63028b724909',1,'edwinspire::Ports']]],
-  ['nine',['Nine',['../namespaceedwinspire_1_1_ports.html#af4e0ec730b70610713b98825eb7c6f53a087299c5c26e659be9c9e37c83e156e1',1,'edwinspire::Ports']]],
-  ['noconnectiontophone',['NoConnectionToPhone',['../namespaceedwinspire_1_1_ports.html#ace89e61880474073c93815c34c52fe0dade04141ff60db74d448d71236c8af905',1,'edwinspire::Ports']]],
-  ['none',['None',['../namespaceedwinspire_1_1_ports.html#aa6e4441b65db895e600a13038b3d5ff4ac7485dcc8d256a6f197ed7802687f252',1,'edwinspire::Ports::None()'],['../namespaceedwinspire_1_1_ports.html#a2e4c31ec0a94db405865b7c241717fbea899caa602e4fff675b17cdbab33607ec',1,'edwinspire::Ports::NONE()']]],
-  ['nonetworkservice',['NoNetworkService',['../namespaceedwinspire_1_1_ports.html#aa6e4441b65db895e600a13038b3d5ff4a941770a50c4e4f7a763fe278de42596a',1,'edwinspire::Ports']]],
-  ['notfound',['NotFound',['../namespaceedwinspire_1_1_ports.html#ace89e61880474073c93815c34c52fe0da70e76b0dfeca4f7119d1da36d948697f',1,'edwinspire::Ports']]]
+  ['noanswer',['NOANSWER',['../namespaceedwinspire_1_1_ports.html#ac176c111882ba8478fef22b8f15a22b5aaf85258a688895edef1ff43971b72552',1,'edwinspire::Ports']]],
+  ['nocarrier',['NOCARRIER',['../namespaceedwinspire_1_1_ports.html#ac176c111882ba8478fef22b8f15a22b5acde6524b1a18be2842ea9d46e42a6073',1,'edwinspire::Ports']]],
+  ['nodialtone',['NODIALTONE',['../namespaceedwinspire_1_1_ports.html#ac176c111882ba8478fef22b8f15a22b5a9b5fdc8d8b446c33e1cb4ae879a806df',1,'edwinspire::Ports']]],
+  ['none',['NONE',['../namespaceedwinspire_1_1_ports.html#afd526aa1ebf856f40b0dfdbef71f7077a84b2ed1a0b5fa1c47adc8f831ab31905',1,'edwinspire::Ports::NONE()'],['../namespaceedwinspire_1_1_ports.html#a8f46ab15ec2741c3e028c5c5ddff36d3ab81c145f75c6ff159a38f7dc7fa76aed',1,'edwinspire::Ports::None()']]]
 ];
