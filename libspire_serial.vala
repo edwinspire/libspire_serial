@@ -21,11 +21,10 @@
 //  You should have received a copy of the GNU Lesser General Public License
 //  along with this program.  If not, see <http://www.gnu.org/licenses/>.
 using GLib;
-/// <summary>
-/// Importacion de funciones externas de manejos de puerto serial Multiplataforma.
-/// Estas funciones externas provienen de serial.c cuando se está compilando para Windows
-/// </summary>
-/// \hideinitializer.
+/////
+/// Import of external serial port handling Multiplatform functions.
+/// These come from serial.c external functions depending on the operating system for which it has been compiled
+/////
 extern int Open_Port(string Puerto);
 extern int Set_Configure_Port(int fd, uint BaudRate, uint Bits, uint Parity, uint BitsStop);
 extern long Write_Port(int fd, string buf, int SizeData);
@@ -37,15 +36,16 @@ extern int IO_Blocking(int fd, int Modo);
 extern int Clean_Buffer(int fd);
 extern int Setup_Buffer(int fd,  ulong InQueue, ulong OutQueue);
 extern int Set_Time(int fd, uint Time);
+
 /**
- * Namespace edwinspire covers the entire software developed by Edwin De La Cruz
- *
- * \author Edwin De La Cruz
+ * edwinspire namespace
+ * 
+ * description vamos
  */
 namespace edwinspire {
 
 /**
- * Namespace Ports covers everything related to communications with serial ports
+ * brief Namespace Ports covers everything related to communications with serial ports
  *
  */
 	namespace Ports {

@@ -26,12 +26,7 @@ namespace edwinspire {
 	namespace Ports {
 	
 
-/** @brief Dummy class used for illustration purposes. Doing something with it.
 
-    Detailed description follows here.
-    @author X. XYZ, DESY
-    @date March 2008
-    */
 		public class Response:GLib.Object {
 			public CME CMEError = CME.None;
 			public CMS CMSError = CMS.None;
@@ -227,7 +222,8 @@ namespace edwinspire {
 											Respuesta = ResponseCode.ERROR_CMS;
 											RespuestaEnBruto.append(linea);
 											identificado = true;
-											//print("%s\n", linea);
+											//TODO: Lanzar un evento indicando el error
+											warning("%s\n", linea);
 											break;
 										}
 									}
@@ -248,7 +244,7 @@ namespace edwinspire {
 											Respuesta = ResponseCode.ERROR_CME;
 											RespuestaEnBruto.append(linea);
 											identificado = true;
-											//print("%s\n", linea);
+											warning("%s\n", linea);
 											break;
 										}
 									}
@@ -286,7 +282,7 @@ namespace edwinspire {
 								// Se hace un doble chequeo para verificar que no hay mas bits por leer, esto previene que se detecte falsamente
 								// un ERROR u OK cuando en Modo texto se lee un sms que contenga esas parabras.
 								if(preventDetectFalseResponse) {
-									//print("Doble checqueo %s\n", preventDetectFalseResponse.to_string());
+									//print("Doble chequeo %s\n", preventDetectFalseResponse.to_string());
 									if(this.BytesToReadInternal()) {
 										ModemReadLines.add(Strip(linea));
 										RespuestaEnBruto.append(linea);
