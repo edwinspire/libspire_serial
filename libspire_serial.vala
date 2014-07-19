@@ -110,7 +110,7 @@ namespace edwinspire {
 		
 
 		/** 
-        * Class for handling serial communication port
+        * Represents a serial port resource.
         */
 		public class SerialPort:Configure {
 		

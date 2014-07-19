@@ -16,14 +16,14 @@ namespace edwinspire {
 			public edwinspire.Ports.StopBits StopBitsp { get; set; }
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
-		[Description (blurb = "Clase para manejar Modems", nick = "Modem")]
+		[Description (blurb = "Represents a Modem resource", nick = "Modem")]
 		public class Modem : edwinspire.Ports.SerialPort {
 			public edwinspire.Ports.LastCallReceived LastCall;
 			public Modem ();
 			public bool AT ();
-			[Description (blurb = "Acepta una llamada entrante", nick = "ATA")]
+			[Description (blurb = "Answer an incoming call", nick = "ATA")]
 			public bool ATA ();
-			[Description (blurb = "Marca en numero pasado como parametro", nick = "ATD")]
+			[Description (blurb = "It dials in phone number passed as parameter", nick = "ATD")]
 			public bool ATD (string Number);
 			public bool ATE (bool enable);
 			public int ATS (int register);
@@ -43,11 +43,11 @@ namespace edwinspire {
 			public bool ATS7_Set (int timeout = 50);
 			public bool ATS_Set (int register, int value);
 			public bool ATV (bool enable);
-			[Description (blurb = "Reset modem. Vuelve el modem a sus valores iniciales", nick = "ATZ")]
+			[Description (blurb = "The modem back to their initial values", nick = "ATZ")]
 			public bool ATZ ();
-			[Description (blurb = "Acepta una llamada entrante", nick = "Accept Call")]
+			[Description (blurb = "Answer an incoming call", nick = "Accept Call")]
 			public bool AcceptCall ();
-			[Description (blurb = "Intenta detectar el Baudrate mas adecuado para el modem", nick = "AutoBaudRate")]
+			[Description (blurb = "Attempts to detect the most suitable for the modem Baudrate", nick = "AutoBaudRate")]
 			public uint AutoBaudRate ();
 			public int AutomaticAnswerControl ();
 			public bool AutomaticAnswerControl_Set (int rings);
@@ -59,24 +59,24 @@ namespace edwinspire {
 			public bool CommandLineTerminationCharacter_Set (int character = 13);
 			public int CompletionConnectionTimeOut ();
 			public bool CompletionConnectionTimeOut_Set (int timeout = 50);
-			[Description (blurb = "Marca en numero pasado como parametro", nick = "Dial Command")]
+			[Description (blurb = "It dials in phone number passed as parameter", nick = "Dial Command")]
 			public bool DialCommand (string number);
 			public bool Echo (bool enable);
 			public bool EscapeSequense ();
 			public int EscapeSequenseCharacter ();
 			public bool EscapeSequenseCharacter_Set (int character = 43);
-			[Description (blurb = "Respuesta del modem", nick = "Receive")]
+			[Description (blurb = "Receives the answer modem", nick = "Receive")]
 			public edwinspire.Ports.Response Receive (double waitforresponse_ms = 0, bool preventDetectFalseResponse = false);
 			public int ResponseFormattingCharacter ();
 			public bool ResponseFormattingCharacter_Set (int character = 10);
 			public bool Send (string ComandoAT);
 			public bool SendSimpleCommand (string ATCommand, double waitforresponse_ms = 0);
-			[Description (blurb = "Vuelve el modem a sus valores iniciales", nick = "Set To Default Configuration")]
+			[Description (blurb = "Alias ATZ", nick = "Set To Default Configuration")]
 			public bool SetToDefaultConfiguration ();
 			public bool VerboseMode (bool enable);
-			[Description (blurb = "Señal emitida cuando se detecta el CallId de una llamada entrante", nick = "CallID")]
+			[Description (blurb = "Emits a signal with the phone number of an incoming call", nick = "CallID")]
 			public signal void CallID (string Number);
-			[Description (blurb = "Señal emitida cuando el modem esta timbrando", nick = "Ringing")]
+			[Description (blurb = "Emits a signal when it has detected that the modem is ringing for an incoming call", nick = "Ringing")]
 			public signal void Ringing ();
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]

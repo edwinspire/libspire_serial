@@ -32,25 +32,25 @@ namespace edwinspire {
 		public class Response:GLib.Object {
 			public CME CMEError = CME.None;
 			public CMS CMSError = CMS.None;
-			/// <summary>
-			/// Respuesta al comando enviado
-			/// true si la respuesta al comando es OK, false en caso contrario
-			/// </summary>
+	
+			/**
+			* Response to AT command sent
+			*/
 			public ResponseCode Return = ResponseCode.UNKNOW;
+			
+			/**
+			* Raw data
+			*/
 			public string Raw = "";
-			/// <summary>
-			/// Lineas recibidas como respuesta al comando AT
-			/// </summary>
+			
+			/**
+			* Lines received in response to AT Command
+			*/
 			public ArrayList<string> Lines  = new ArrayList<string>();
-			/// <summary>
-			/// Constructor with parameter
-			/// </summary>
-			/// <param name="Return">
-			/// true si todo salio bien, false en caso contrario
-			/// </param>
-			/// <param name="Lines">
-			/// Lineas devueltas por el modem como respuesta a un comando AT
-			/// </param>
+			
+			/**
+			* Constructor with parameter
+			*/
 			public Response.with_args(ResponseCode Return, ArrayList<string> Lines, string raw, CME cmeError = CME.None, CMS cmsError = CMS.None) {
 				this.Return = Return;
 				this.Lines = Lines;
@@ -58,11 +58,13 @@ namespace edwinspire {
 				this.CMEError = cmeError;
 				this.CMSError = cmsError;
 			}
-		/// <summary>
-        /// Default constructor
-        /// </summary>
+    
+    		/**
+            * Default constructor
+            */
 			public Response() {
 			}
+			
 			public string ToString() {
 				var Cadena = new StringBuilder();
 				foreach(var l in this.Lines) {
@@ -73,10 +75,21 @@ namespace edwinspire {
 			}
 		}
 		
-		
+		/**
+		* Data structure that represents the data from the last call received
+		*/
 		public struct LastCallReceived {
+		    /**
+		    * Phone number
+		    */
 			public string Number;
+			/**
+			* Date and time of the telephone call
+			*/
 			public DateTime Date;
+			/**
+			* The record was received
+			*/
 			public bool Read;
 			public LastCallReceived() {
 				this.Number = "";
@@ -86,8 +99,10 @@ namespace edwinspire {
 		}
 		
 		
-		
-		[Description(nick = "Modem", blurb = "Clase para manejar Modems")]
+		/**
+		* Represents a Modem resource.
+		*/
+		[Description(nick = "Modem", blurb = "Represents a Modem resource")]
 		public class Modem : SerialPort {
 			private string[] expregOK = {
 				"OK\r\n"
@@ -112,23 +127,38 @@ namespace edwinspire {
 				"\\+CLIP: \"(?<CLIP>[0-9|+]+)\""
 			}
 			;
+			/**
+			* Represents the data from the last call received
+			*/
 			public LastCallReceived LastCall = LastCallReceived();
 			//--Señales--//
-			[Description(nick = "CallID", blurb = "Señal emitida cuando se detecta el CallId de una llamada entrante")]
+			/**
+			* Emits a signal with the phone number of an incoming call
+			*/
+			[Description(nick = "CallID", blurb = "Emits a signal with the phone number of an incoming call")]
 			public signal void CallID(string Number);
-			[Description(nick = "Ringing", blurb = "Señal emitida cuando el modem esta timbrando")]
+			/**
+			* Emits a signal when it has detected that the modem is ringing for an incoming call
+			*/
+			[Description(nick = "Ringing", blurb = "Emits a signal when it has detected that the modem is ringing for an incoming call")]
 			public signal void Ringing();
 			private Timer Temporizador = new Timer();
+			
+			/**
+			* Default constructor
+			*/
 			public Modem() {
 			}
 
-			[Description(nick = "AutoBaudRate", blurb = "Intenta detectar el Baudrate mas adecuado para el modem")]
+            /**
+            * Attempts to detect the most suitable for the modem Baudrate
+            */
+			[Description(nick = "AutoBaudRate", blurb = "Attempts to detect the most suitable for the modem Baudrate")]
 			public uint AutoBaudRate() {
 				uint oldbaudrate = this.BaudRate;
 				uint Retorno = this.BaudRate;
 				bool oldOpen = this.IsOpen;
 				bool detectado = false;
-				//int[] baudios = {460800, 230400, 115200, 38400, 19200, 9600, 4800, 2400, 1800, 1200, 600, 300, 200, 100};
 				uint[] baudios = {
 					100, 200, 300, 600, 1200, 1800, 2400, 4800, 9600, 19200, 38400, 115200, 230400, 460800
 				}
@@ -157,7 +187,11 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
-			[Description(nick = "Receive", blurb = "Respuesta del modem")]
+			
+			/**
+			* Receives the answer modem
+			*/
+			[Description(nick = "Receive", blurb = "Receives the answer modem")]
 			public Response Receive(double waitforresponse_ms = 0, bool preventDetectFalseResponse = false) {
 				var RespuestaEnBruto = new StringBuilder();
 				if(waitforresponse_ms<100) {
@@ -214,9 +248,9 @@ namespace edwinspire {
 							}
 							if(!identificado) {
 								// Detecta si la linea es ERROR_CMS
-								// TODO // Implementar deteccion de descripcion de este error y anexarlo a la respuesta
+								// TODO 
+								// Implementar deteccion de descripcion de este error y anexarlo a la respuesta
 								foreach(string Expresion in expregERROR_CMS) {
-									//print("Linea %s\n", linea);
 									try {
 										Regex RegExp = new Regex(Expresion);
 										MatchInfo match;
@@ -236,7 +270,8 @@ namespace edwinspire {
 							}
 							if(!identificado) {
 								// Detecta si la linea es ERROR_CME
-								// TODO // Implementar deteccion de descripcion de este error y anexarlo a la respuesta
+								// TODO 
+								// Implementar deteccion de descripcion de este error y anexarlo a la respuesta
 								foreach(string Expresion in expregERROR_CMEE) {
 									//print("Linea %s\n", linea);
 									try {
@@ -300,17 +335,9 @@ namespace edwinspire {
 				return Respuest;
 			}
 		
-			/// <summary>
-			/// Envia un comando AT al modem
-			/// </summary>
-			/// <param name="ComandoAT">
-			/// A <see cref="System.String"/>
-			/// Comando AT
-			/// </param>
-			/// <returns>
-			/// A <see cref="System.Boolean"/>
-			/// Devuelve true si se ha logrado enviar el comando al modem, caso contrario devuelve false
-			/// </returns>
+			/**
+			* Send an AT command to modem
+			*/
 			public bool Send(string ComandoAT) {
 				bool Retorno = false;
 				this.DiscardBuffer();
@@ -318,22 +345,17 @@ namespace edwinspire {
 				if(Escrito>0) {
 					Retorno = true;
 				} else {
-					//throw new SerialError.IO_EXCEPTION("El Puerto no esta abierto");
-					stderr.printf("No se pudo escribir en el puerto %s\n", this.Port);
+					stderr.printf("Could not write to the port %s\n", this.Port);
 				}
 				return Retorno;
 			}
-			/// <summary>
-			/// Envia un comando AT del cual se espera
-			/// obtener como respuesta un OK o ERROR
-			/// </summary>
-			/// <param name="ATCommand">
-			/// A <see cref="System.String"/>
-			/// </param>
-			/// <returns>
-			/// A <see cref="System.Boolean"/>
-			/// Respuesta al comando AT (true = OK / false = ERROR)
-			/// </returns>
+
+
+			/**
+			* Send an AT command to modem and expected response OK or ERROR
+			* @param waitforresponse_ms Time in milliseconds that a response is expected modem. <<BR>>
+			* You can increase this value if the modem delay in responding.
+			*/
 			public bool SendSimpleCommand(string ATCommand, double waitforresponse_ms = 0) {
 				bool Retorno= false;
 				this.DiscardBuffer();
@@ -343,39 +365,64 @@ namespace edwinspire {
 						Retorno = true;
 					}
 				} else {
-					stderr.printf("No se pudo escribir en el puerto %s\n", this.Port);
+					stderr.printf("Could not write to the port %s\n", this.Port);
 					if(LogModem) {
-						LogCommandAT(ATCommand+": No se pudo escribir en el puerto\n");
+						LogCommandAT(ATCommand+": Could not write to the port\n");
 					}
 				}
 				return 	Retorno;
 			}
-			[Description(nick = "Dial Command", blurb = "Marca en numero pasado como parametro")]
+			
+			/**
+			* Alias ATD
+			* @see ATD
+			*/
+			[Description(nick = "Dial Command", blurb = "It dials in phone number passed as parameter")]
 			public bool DialCommand(string number) {
 				return this.ATD(number);
 			}
-			[Description(nick = "ATD", blurb = "Marca en numero pasado como parametro")]
+
+			/**
+			* It dials in phone number passed as parameter
+			* Only DTMF allowed
+			*/			
+			[Description(nick = "ATD", blurb = "It dials in phone number passed as parameter")]
 			public bool ATD(string  Number) {
 				bool Retorno = false;
+				// TODO
+				// Hacer una verificacion para que unicamente DTMF sean permitidos
 				StringBuilder ComandoAT = new StringBuilder("ATD");
 				ComandoAT.append(Number);
 				ComandoAT.append("\r");
 				if(this.IsOpen) {
 					this.DiscardBuffer();
-					//this.DiscardOutBuffer();
 					this.Write(ComandoAT.str);
 					Retorno = true;
 				}
 				return Retorno;
 			}
-			[Description(nick = "Set To Default Configuration", blurb = "Vuelve el modem a sus valores iniciales")]
+			
+			/**
+			* Alias ATZ
+			* @see ATZ
+			*/
+			[Description(nick = "Set To Default Configuration", blurb = "Alias ATZ")]
 			public bool SetToDefaultConfiguration() {
 				return this.ATZ();
 			}
-			[Description(nick = "ATZ", blurb = "Reset modem. Vuelve el modem a sus valores iniciales")]
+			
+			/**
+			* Reset modem
+			* The modem back to their initial values
+			*/
+			[Description(nick = "ATZ", blurb = "The modem back to their initial values")]
 				public bool ATZ() {
 				return this.SendSimpleCommand("ATZ\r");
 			}
+			
+			/**
+			* Enable / Disable terminal echo
+			*/
 			public bool ATE(bool enable) {
 				string comando = "ATE0\r";
 				if(enable) {
@@ -383,7 +430,12 @@ namespace edwinspire {
 				}
 				return this.SendSimpleCommand(comando);
 			}
-			//TODO// Probar que funcione
+			
+			/**
+			* Modem to verbose mode
+			*/
+			// TODO
+			// Probar que funcione
 			public bool ATV(bool enable) {
 				string comando = "ATV0\r";
 				if(enable) {
@@ -391,100 +443,198 @@ namespace edwinspire {
 				}
 				return this.SendSimpleCommand(comando);
 			}
+			
+			/**
+			* @see ATV
+			*/			
 			public bool VerboseMode(bool enable) {
 				return ATV(enable);
 			}
+			/**
+			* @see ATE
+			*/			
 			public bool Echo(bool enable) {
 				return ATE(enable);
 			}
+			/**
+			* Enter the //value// in //register//
+			*/			
 			public bool ATS_Set(int register, int value) {
 				return this.SendSimpleCommand("ATS"+register.to_string()+"="+value.to_string()+"\r");
 			}
+			/**
+			* Sets the number of rings before answering an incoming call so automatically.
+			*/
 			public bool AutomaticAnswerControl_Set(int rings) {
 				return ATS_Set(0, rings);
 			}
+			/**
+			* @see ATS0
+			*/
 			public int AutomaticAnswerControl() {
 				return ATS(0);
 			}
+			/**
+			* Get automatic answer control
+			*/			
 			public int ATS0() {
 				return AutomaticAnswerControl();
 			}
+			/**
+			* Set automatic answer control
+			*/						
 			public bool ATS0_Set(int rings) {
 				return AutomaticAnswerControl_Set(rings);
 			}
+			/**
+			* @see ATS2_Set
+			*/						
 			public bool EscapeSequenseCharacter_Set(int character = 43) {
 				return ATS_Set(2, character);
 			}
+			/**
+			* @see ATS2
+			*/				
 			public int EscapeSequenseCharacter() {
 				return ATS(2);
 			}
+			/**
+			* Get escape sequense character
+			*/								
 			public int ATS2() {
 				return EscapeSequenseCharacter();
 			}
+			/**
+			* Set escape sequense character
+			*/			
 			public bool ATS2_Set(int character = 43) {
 				return EscapeSequenseCharacter_Set(character);
 			}
+			/**
+			* @see ATS3_Set
+			*/
 			public bool CommandLineTerminationCharacter_Set(int character = 13) {
 				return ATS_Set(3, character);
 			}
+			/**
+			* @see ATS3
+			*/
 			public int CommandLineTerminationCharacter() {
 				return ATS(3);
 			}
+			/**
+			* Get Command line termination character
+			*/
 			public int ATS3() {
 				return CommandLineTerminationCharacter();
 			}
+			/**
+			* Set Command line termination character
+			*/			
 			public bool ATS3_Set(int character = 13) {
 				return CommandLineTerminationCharacter_Set(character);
 			}
+			/**
+			* @see ATS4_Set
+			*/
 			public bool ResponseFormattingCharacter_Set(int character = 10) {
 				return ATS_Set(4, character);
 			}
+			/**
+			* @see ATS4
+			*/
 			public int ResponseFormattingCharacter() {
 				return ATS(4);
 			}
+			/**
+			* Get Response formatting character
+			*/
 			public int ATS4() {
 				return ResponseFormattingCharacter();
 			}
+			/**
+			* Set Response formatting character
+			*/
 			public bool ATS4_Set(int character = 10) {
 				return ResponseFormattingCharacter_Set(character);
 			}
+			/**
+			* @see ATS5_Set
+			*/
 			public bool CommandLineEditingCharacter_Set(int character = 8) {
 				return ATS_Set(5, character);
 			}
+			/**
+			* @see ATS5
+			*/
 			public int CommandLineEditingCharacter() {
 				return ATS(5);
 			}
+			/**
+			* Get Command line editing character
+			*/
 			public int ATS5() {
 				return CommandLineEditingCharacter();
 			}
+			/**
+			* Set Command line editing character
+			*/
 			public bool ATS5_Set(int character = 8) {
 				return CommandLineEditingCharacter_Set(character);
 			}
+			/**
+			* Set Completion connection timeout
+			*/
 			public bool ATS7_Set(int timeout = 50) {
 				return ATS_Set(7, timeout);
 			}
+			/**
+			* @see ATS7_Set
+			*/
 			public bool CompletionConnectionTimeOut_Set(int timeout = 50) {
 				return ATS7_Set(timeout);
 			}
+			/**
+			* Get Completion connection timeout
+			*/
 			public int ATS7() {
 				return ATS(7);
 			}
+			/**
+			* @see ATS7
+			*/
 			public int CompletionConnectionTimeOut() {
 				return ATS7();
 			}
+			/**
+			* Set Automatic disconnect delay control
+			*/
 			public bool ATS10_Set(int delay = 2) {
 				return ATS_Set(10, delay);
 			}
+			/**
+			* @see ATS10
+			*/
 			public bool AutomaticDisconnectDelayControl_Set(int delay = 2) {
 				return ATS10_Set(delay);
 			}
+			/**
+			* Get Automatic disconnect delay control
+			*/
 			public int ATS10() {
 				return ATS(10);
 			}
+			/**
+			* @see ATS10
+			*/
 			public int AutomaticDisconnectDelayControl() {
 				return ATS10();
 			}
-			//TODO// Probar qe funcione
+			// TODO
+			// Probar qe funcione
+			/**
+			* Get value to register
+			*/
 			public int ATS(int register) {
 				int Retorno = 0;
 				this.DiscardBuffer();
@@ -507,17 +657,30 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
+			/**
+			* Lets verify that communication with the device
+			*/
 			public bool AT() {
 				return this.SendSimpleCommand("AT\r");
 			}
+			/**
+			* Escape sequence of the PPP session (+++). <<BR>>
+			* There must be half a second without characters before and half a second with no characters after entering the sequence
+			*/
 			public bool EscapeSequense() {
 				return this.SendSimpleCommand("+++\r");
 			}
-			[Description(nick = "Accept Call", blurb = "Acepta una llamada entrante")]
+			/**
+			* @see ATA
+			*/
+			[Description(nick = "Accept Call", blurb = "Answer an incoming call")]
 			public bool AcceptCall() {
 				return this.ATA();
 			}
-			[Description(nick = "ATA", blurb = "Acepta una llamada entrante")]
+			/**
+			* Answer an incoming call
+			*/
+			[Description(nick = "ATA", blurb = "Answer an incoming call")]
 				public bool ATA() {
 				return this.SendSimpleCommand("ATA\r");
 			}
