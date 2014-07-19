@@ -33,6 +33,7 @@
           <li class="property"><a href="edwinspire.Ports.SerialPort.Blocking.html">Blocking</a></li>
           <li class="property"><a href="edwinspire.Ports.SerialPort.BytesToRead.html">BytesToRead</a></li>
           <li class="property"><a href="edwinspire.Ports.SerialPort.IsOpen.html">IsOpen</a></li>
+          <li class="property"><a href="edwinspire.Ports.SerialPort.LogModem.html">LogModem</a></li>
           <li class="static_method"><a href="edwinspire.Ports.SerialPort.LogCommandAT.html">LogCommandAT</a></li>
           <li class="static_method"><a href="edwinspire.Ports.SerialPort.Strip.html">Strip</a></li>
           <li class="creation_method"><a href="edwinspire.Ports.SerialPort.SerialPort.html">SerialPort</a></li>
@@ -49,7 +50,6 @@
           <li class="method"><a href="edwinspire.Ports.SerialPort.Time.html">Time</a></li>
           <li class="method"><a href="edwinspire.Ports.SerialPort.Write.html">Write</a></li>
           <li class="signal"><a href="edwinspire.Ports.SerialPort.Status.html">Status</a></li>
-          <li class="field"><a href="edwinspire.Ports.SerialPort.LogModem.html">LogModem</a></li>
         </ul>
       </div>
       <div class="site_content">
@@ -57,6 +57,23 @@
         <hr class="main_hr"/>
         <h2 class="main_title">Description:</h2>
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>string</code></span>? <b><span css="method">ReadLine</span></b> (<span class="main_basic_type"><code>double</code></span> timeout_ms_for_line = <span class="main_optional_parameter">0</span>)
+        </div>
+        <div class="description">
+          <p>Read data port until find \r\n (not included)</p>
+          <h2 class="main_title">Parameters:</h2>
+          <table class="main_parameter_table">
+            <tr>
+              <td class="main_parameter_table_name">timeout_ms_for_line</td>
+              <td>Time in milliseconds that the software will wait for a line. <br/> You can increase this value if you have problems with the device.
+                <br/> The defualt value is 0. </td>
+            </tr>
+          </table>
+          <h2 class="main_title">Returns:</h2>
+          <table class="main_parameter_table">
+            <tr>
+              <td>Returns the line read (without \r\n) or <b>null</b> if not obtained some data. </td>
+            </tr>
+          </table>
         </div>
       </div>
     </div><br/>

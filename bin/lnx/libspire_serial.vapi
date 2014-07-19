@@ -92,7 +92,6 @@ namespace edwinspire {
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
 		public class SerialPort : edwinspire.Ports.Configure {
-			public bool LogModem;
 			public SerialPort ();
 			public double BaudRateTomseg ();
 			public double BaudRateTouseg ();
@@ -106,11 +105,12 @@ namespace edwinspire {
 			public string? ReadLineWithoutStrip (double timeout_ms_for_line = 0);
 			public static string Strip (string String);
 			public bool Time (uint Time_);
-			public long Write (string Data_);
+			public long Write (string data_);
 			public SerialPort.with_args (string Port_ = "/dev/ttyS0", uint Baudrate = 2400, uint DataBits = 8, edwinspire.Ports.Parity Parity_ = Parity.NONE, edwinspire.Ports.StopBits StopBits_ = StopBits.ONE, edwinspire.Ports.HandShaking HS_ = HandShaking.NONE);
 			public bool Blocking { get; set; }
 			public int BytesToRead { get; }
 			public bool IsOpen { get; }
+			public bool LogModem { get; set; }
 			public signal void Status (edwinspire.Ports.DataStatus Status);
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]

@@ -33,6 +33,7 @@
           <li class="property"><a href="edwinspire.Ports.SerialPort.Blocking.html">Blocking</a></li>
           <li class="property"><a href="edwinspire.Ports.SerialPort.BytesToRead.html">BytesToRead</a></li>
           <li class="property"><a href="edwinspire.Ports.SerialPort.IsOpen.html">IsOpen</a></li>
+          <li class="property"><a href="edwinspire.Ports.SerialPort.LogModem.html">LogModem</a></li>
           <li class="static_method"><a href="edwinspire.Ports.SerialPort.LogCommandAT.html">LogCommandAT</a></li>
           <li class="static_method"><a href="edwinspire.Ports.SerialPort.Strip.html">Strip</a></li>
           <li class="creation_method"><a href="edwinspire.Ports.SerialPort.SerialPort.html">SerialPort</a></li>
@@ -49,7 +50,6 @@
           <li class="method"><a href="edwinspire.Ports.SerialPort.Time.html">Time</a></li>
           <li class="method"><a href="edwinspire.Ports.SerialPort.Write.html">Write</a></li>
           <li class="signal"><a href="edwinspire.Ports.SerialPort.Status.html">Status</a></li>
-          <li class="field"><a href="edwinspire.Ports.SerialPort.LogModem.html">LogModem</a></li>
         </ul>
       </div>
       <div class="site_content">
@@ -67,6 +67,9 @@
 
         <h2 class="main_title">Description:</h2>
         <div class="main_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">class</span> <b><span css="class">SerialPort</span></b> : <span class="main_type"><a href="edwinspire.Ports.Configure.html" class="class">Configure</a></span>
+        </div>
+        <div class="description">
+          <p>Class for handling serial communication port</p>
         </div>
         <div class="box">
           <div class="headline">
@@ -95,100 +98,98 @@
           <h2 class="main_title">Content:</h2>
           <h3 class="main_title">Properties:</h3>
           <ul class="navi_inline">
+            <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.LogModem.html" class="property">LogModem</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
+              </span>
+              <div class="leaf_brief_description"><span class="brief_description">Enables writing a log of transactions performed by the modem.</span>
+              </div></li>
             <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.Blocking.html" class="property">Blocking</a></b> { <span class="main_keyword">set</span>; <span class="main_keyword">get</span>; }
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Sets whether reading and writing data will run in blocking mode.
+                </span>
               </div></li>
             <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>int</code></span> <b><a href="edwinspire.Ports.SerialPort.BytesToRead.html" class="property">BytesToRead</a></b> { <span class="main_keyword">get</span>; }
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Bytes to read</span>
               </div></li>
             <li class="property"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.IsOpen.html" class="property">IsOpen</a></b> { <span class="main_keyword">get</span>; }
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Port is open</span>
               </div></li>
           </ul>
           <h3 class="main_title">Static methods:</h3>
           <ul class="navi_inline">
             <li class="static_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">static</span> <span class="main_keyword">void</span> <b><a href="edwinspire.Ports.SerialPort.LogCommandAT.html" class="static_method">LogCommandAT</a></b> (<span class="main_basic_type"><code>string</code></span> text = <span class="main_optional_parameter">""</span>)
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Write log from modem</span>
               </div></li>
             <li class="static_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">static</span> <span class="main_basic_type"><code>string</code></span> <b><a href="edwinspire.Ports.SerialPort.Strip.html" class="static_method">Strip</a></b> (<span class="main_basic_type"><code>string</code></span> String)
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Strip string</span>
               </div></li>
           </ul>
           <h3 class="main_title">Creation methods:</h3>
           <ul class="navi_inline">
             <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="edwinspire.Ports.SerialPort.SerialPort.with_args.html" class="creation_method">SerialPort.with_args</a></b> (<span class="main_basic_type"><code>string</code></span> Port_ = <span class="main_optional_parameter">"/dev/ttyS0"</span>, <span class="main_basic_type"><code>uint</code></span> Baudrate = <span class="main_optional_parameter">2400</span>, <span class="main_basic_type"><code>uint</code></span> DataBits = <span class="main_optional_parameter">8</span>, <span class="main_type"><a href="edwinspire.Ports.Parity.html" class="enum">Parity</a></span> Parity_ = <b><a href="edwinspire.Ports.Parity.NONE.html" class="enumvalue">NONE</a></b>, <span class="main_type"><a href="edwinspire.Ports.StopBits.html" class="enum">StopBits</a></span> StopBits_ = <b><a href="edwinspire.Ports.StopBits.ONE.html" class="enumvalue">ONE</a></b>, <span class="main_type"><a href="edwinspire.Ports.HandShaking.html" class="enum">HandShaking</a></span> HS_ = <b><a href="edwinspire.Ports.HandShaking.NONE.html" class="enumvalue">NONE</a></b>)
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Constructor with arguments</span>
               </div></li>
             <li class="creation_method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <b><a href="edwinspire.Ports.SerialPort.SerialPort.html" class="creation_method">SerialPort</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Default Constructor</span>
               </div></li>
           </ul>
           <h3 class="main_title">Methods:</h3>
           <ul class="navi_inline">
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.DiscardBuffer.html" class="method">DiscardBuffer</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Discards data from buffer</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>string</code></span>[] <b><a href="edwinspire.Ports.SerialPort.Get_PortName.html" class="method">Get_PortName</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description"><b>Warning:</b> do not use this method, not yet implemented.</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.Time.html" class="method">Time</a></b> (<span class="main_basic_type"><code>uint</code></span> Time_)
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Maximum time in milliseconds between consecutive characters</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.Open.html" class="method">Open</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Open port</span>
               </div></li>
-            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>long</code></span> <b><a href="edwinspire.Ports.SerialPort.Write.html" class="method">Write</a></b> (<span class="main_basic_type"><code>string</code></span> Data_)
+            <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>long</code></span> <b><a href="edwinspire.Ports.SerialPort.Write.html" class="method">Write</a></b> (<span class="main_basic_type"><code>string</code></span> data_)
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Writes the data to the port</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>char</code></span> <b><a href="edwinspire.Ports.SerialPort.ReadChar.html" class="method">ReadChar</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Read char from port</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>double</code></span> <b><a href="edwinspire.Ports.SerialPort.BaudRateTouseg.html" class="method">BaudRateTouseg</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Returns the microseconds Baudrate turned into</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>double</code></span> <b><a href="edwinspire.Ports.SerialPort.BaudRateTomseg.html" class="method">BaudRateTomseg</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Returns the milliseconds Baudrate turned into</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>string</code></span>? <b><a href="edwinspire.Ports.SerialPort.ReadLine.html" class="method">ReadLine</a></b> (<span class="main_basic_type"><code>double</code></span> timeout_ms_for_line = <span class="main_optional_parameter">0</span>)
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Read data port until find \r\n (not included)</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>string</code></span>? <b><a href="edwinspire.Ports.SerialPort.ReadLineWithoutStrip.html" class="method">ReadLineWithoutStrip</a></b> (<span class="main_basic_type"><code>double</code></span> timeout_ms_for_line = <span class="main_optional_parameter">0</span>)
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Read data port until find \r\n.</span>
               </div></li>
             <li class="method"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.Close.html" class="method">Close</a></b> ()
               </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Close port</span>
               </div></li>
           </ul>
           <h3 class="main_title">Signals:</h3>
           <ul class="navi_inline">
             <li class="signal"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_keyword">signal</span> <span class="main_keyword">void</span> <b><a href="edwinspire.Ports.SerialPort.Status.html" class="signal">Status</a></b> (<span class="main_type"><a href="edwinspire.Ports.DataStatus.html" class="enum">DataStatus</a></span> Status)
               </span>
-              <div class="leaf_brief_description">
-              </div></li>
-          </ul>
-          <h3 class="main_title">Fields:</h3>
-          <ul class="navi_inline">
-            <li class="field"><span class="leaf_code_definition"><span class="main_keyword">public</span> <span class="main_basic_type"><code>bool</code></span> <b><a href="edwinspire.Ports.SerialPort.LogModem.html" class="field">LogModem</a></b>
-              </span>
-              <div class="leaf_brief_description">
+              <div class="leaf_brief_description"><span class="brief_description">Signal output indicating the status of data transmission</span>
               </div></li>
           </ul>
         </div>

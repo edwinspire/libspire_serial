@@ -111,7 +111,6 @@ typedef enum  {
 struct _edwinspirePortsSerialPort {
 	edwinspirePortsConfigure parent_instance;
 	edwinspirePortsSerialPortPrivate * priv;
-	gboolean LogModem;
 };
 
 struct _edwinspirePortsSerialPortClass {
@@ -373,7 +372,7 @@ gboolean edwinspire_ports_serial_port_DiscardBuffer (edwinspirePortsSerialPort* 
 gchar** edwinspire_ports_serial_port_Get_PortName (edwinspirePortsSerialPort* self, int* result_length1);
 gboolean edwinspire_ports_serial_port_Time (edwinspirePortsSerialPort* self, guint Time_);
 gboolean edwinspire_ports_serial_port_Open (edwinspirePortsSerialPort* self);
-glong edwinspire_ports_serial_port_Write (edwinspirePortsSerialPort* self, const gchar* Data_);
+glong edwinspire_ports_serial_port_Write (edwinspirePortsSerialPort* self, const gchar* data_);
 gchar edwinspire_ports_serial_port_ReadChar (edwinspirePortsSerialPort* self);
 void edwinspire_ports_serial_port_LogCommandAT (const gchar* text);
 gdouble edwinspire_ports_serial_port_BaudRateTouseg (edwinspirePortsSerialPort* self);
@@ -382,6 +381,8 @@ gchar* edwinspire_ports_serial_port_ReadLine (edwinspirePortsSerialPort* self, g
 gchar* edwinspire_ports_serial_port_ReadLineWithoutStrip (edwinspirePortsSerialPort* self, gdouble timeout_ms_for_line);
 gchar* edwinspire_ports_serial_port_Strip (const gchar* String);
 gboolean edwinspire_ports_serial_port_Close (edwinspirePortsSerialPort* self);
+gboolean edwinspire_ports_serial_port_get_LogModem (edwinspirePortsSerialPort* self);
+void edwinspire_ports_serial_port_set_LogModem (edwinspirePortsSerialPort* self, gboolean value);
 gboolean edwinspire_ports_serial_port_get_Blocking (edwinspirePortsSerialPort* self);
 void edwinspire_ports_serial_port_set_Blocking (edwinspirePortsSerialPort* self, gboolean value);
 gint edwinspire_ports_serial_port_get_BytesToRead (edwinspirePortsSerialPort* self);

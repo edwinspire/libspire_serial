@@ -37,20 +37,22 @@ extern int Clean_Buffer(int fd);
 extern int Setup_Buffer(int fd,  ulong InQueue, ulong OutQueue);
 extern int Set_Time(int fd, uint Time);
 
-/**
- * edwinspire namespace
- * 
- * description vamos
- */
 namespace edwinspire {
 
-/**
- * brief Namespace Ports covers everything related to communications with serial ports
- *
- */
+
 	namespace Ports {
 	
+
+		/** 
+        * Configuration parameters of the serial port
+        */
 		public class Configure:GLib.Object {
+	    	/** 
+            * Serial Port
+            *
+            * Example on Windows: COM1 <<BR>>
+            * Example on Linux: / dev/ttyS0
+            */		
 			public string Port {
 				set;
 				get;
@@ -81,7 +83,12 @@ namespace edwinspire {
 				set;
 				default = Ports.HandShaking.NONE;
 			}
-			//public uint TimeOut{set; get; default = 250;}
+			
+		/** 
+        * Serial port enabled
+        *
+        * If this value is set to FALSE the serial port is disabled and can not work with him.
+        */
 			public bool Enable {
 				set;
 				get;
@@ -102,20 +109,28 @@ namespace edwinspire {
 		}
 		
 
-/*! \class SerialPort:Configure
- * The SerialPort class contains methods for communications with devices via serial port.
- */	
+		/** 
+        * Class for handling serial communication port
+        */
 		public class SerialPort:Configure {
+		
+    		/** 
+            * Signal output indicating the status of data transmission
+            */
 			public signal void Status(DataStatus Status);
-//			
 			private int Gestor = -1;
 			private bool Bloqueante = false;
 			// Variables para uso interno
 			private Timer TemporizadorInternoReadChar = new Timer();
 			private Timer TemporizadorInternoReadLine = new Timer();
 			private StringBuilder LineaModem = new StringBuilder();
-			//private StringBuilder LineaModemCR = new StringBuilder();
-			public bool LogModem = false;
+    		/** 
+            * Enables writing a log of transactions performed by the modem.
+            */
+			public bool LogModem{public set; default = false; public get;}
+    		/** 
+            * Constructor with arguments
+            */			
 			public SerialPort.with_args(string Port_ = "/dev/ttyS0", uint Baudrate = 2400, uint DataBits = 8, Parity Parity_ = Parity.NONE, StopBits StopBits_ = StopBits.ONE, HandShaking HS_ = HandShaking.NONE) {
 				connectSignals();
 				Port = Port_;
@@ -156,11 +171,18 @@ namespace edwinspire {
 				}
 				);
 			}
+    		/** 
+            * Default Constructor
+            *
+            * Port = "/dev/ttyS0" <<BR>>
+            * Enable = true
+            */				
 			public SerialPort() {
-				connectSignals();
-				Port = "/dev/ttyS0";
-				Enable = true;
+				this.connectSignals();
+				this.Port = "/dev/ttyS0";
+				this.Enable = true;
 			}
+			// Configure port with arguments
 			private bool Set_Port() {
 				bool Retorno = false;
 				if(this.IsEnableAndOpen()) {
@@ -170,9 +192,9 @@ namespace edwinspire {
 						Retorno = false;
 					}
 				}
-				//print("Set port %s\n", Retorno.to_string());
 				return Retorno;
 			}
+			// Set port with full arguments
 			private bool Set() {
 				bool Retorno = false;
 				if(Enable && Set_Port()) {
@@ -182,6 +204,7 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
+			// Configure buffer of port
 			private bool Setup_Buffer_(ulong BufferIn, ulong BufferOut) {
 				bool Retorno = false;
 				if(this.IsEnableAndOpen() && Setup_Buffer(Gestor, BufferIn, BufferOut)==0) {
@@ -189,6 +212,7 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
+			// Set HandSHaking
 			private bool set_handshaking() {
 				bool Retorno = false;
 				if(this.IsEnableAndOpen()) {
@@ -198,6 +222,10 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
+    		/** 
+            * Discards data from buffer
+            * @return TRUE if all went well, otherwise it returns FALSE.
+            */				
 			public bool DiscardBuffer() {
 				bool Retorno = false;
 				if(this.IsEnableAndOpen() && Clean_Buffer(Gestor) == 0) {
@@ -206,10 +234,16 @@ namespace edwinspire {
 				return Retorno;
 			}
 			//TODO//
+			/**
+			* ''Warning:'' do not use this method, not yet implemented.
+			*/
 			public string[] Get_PortName() {
 				string[] Retorno = new string[0];
 				return Retorno;
 			}
+			/**
+			* Sets whether reading and writing data will run in blocking mode.
+			*/
 			public bool Blocking {
 				set {
 					Bloqueante = value;
@@ -230,6 +264,9 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
+			/**
+			* Maximum time in milliseconds between consecutive characters
+			*/
 			public bool Time(uint Time_) {
 				bool Retorno = false;
 				if(this.IsEnableAndOpen() && Set_Time(Gestor, Time_) == 0) {
@@ -238,62 +275,71 @@ namespace edwinspire {
 				return Retorno;
 			}
 			
-    /*! \property BytesToRead
-    * 
-    */
+            /**
+            * Bytes to read
+            */
 			public int BytesToRead {
 				get {
 					return Kbhit_Port(Gestor);
 				}
 			}
+			
+			/**
+			* Open port
+			* @return TRUE if all went well, otherwise it returns FALSE.
+			*/
 			public bool Open() {
 				var Cadena = new StringBuilder();
 				if(LogModem) {
-					Cadena.append_printf("Puerto: %s\n", this.Port);
-					Cadena.append_printf("Abre con configuracion: %s\n", this.Port);
-					Cadena.append_printf("BaudRate: %s\n", this.BaudRate.to_string());
-					Cadena.append_printf("Parityp: %s\n", this.Parityp.to_string());
-					Cadena.append_printf("StopBitsp: %s\n", this.StopBitsp.to_string());
-					Cadena.append_printf("DataBits: %s\n", this.DataBits.to_string());
+					Cadena.append_printf("Port: %s\n", this.Port);
+					Cadena.append_printf("Open configuration: %s\n", this.Port);
+					Cadena.append_printf("Baud rate: %s\n", this.BaudRate.to_string());
+					Cadena.append_printf("Parity: %s\n", this.Parityp.to_string());
+					Cadena.append_printf("Stop Bits: %s\n", this.StopBitsp.to_string());
+					Cadena.append_printf("Data Bits: %s\n", this.DataBits.to_string());
 					Cadena.append_printf("HandShake: %s\n", this.HandShake.to_string());
 					LogCommandAT(Cadena.str);
 				}
 				//TODO//Crear un TimeOut para Open
 				Gestor = Open_Port(Port);
-				//stdout.printf ("Gestor id = %s\n", Gestor.to_string());
 				if(Enable && IsOpen) {
 					Set();
 				} else {
-					//throw new SerialError.IO_EXCEPTION("Puerto no pudo ser abierto");
-					stderr.printf("El puerto %s no pudo ser abierto\n", this.Port);
+					stderr.printf("The port %s could not be opened\n", this.Port);
 					if(LogModem) {
 						Cadena.truncate(0);
-						Cadena.append_printf("Puerto: %s no pudo ser abierto\n", this.Port);
+						Cadena.append_printf("The port %s could not be opened\n", this.Port);
 						LogCommandAT(Cadena.str);
 					}
 				}
 				return this.IsOpen;
 			}
-			public long Write(string Data_) {
+			
+			/**
+			* Writes the data to the port
+			*
+			* @return Number of bits
+			*/
+			public long Write(string data_) {
 				long Retorno = 0;
 				var Cadena = new StringBuilder();
 				if(LogModem) {
-					Cadena.append_printf(">> %s\n", Data_);
+					Cadena.append_printf(">> %s\n", data_);
 					LogCommandAT(Cadena.str);
 				}
 				if(this.IsEnableAndOpen()) {
-					if(Data_.length>0) {
+					if(data_.length>0) {
 						StringBuilder DatoC = new StringBuilder();
 						int i = 0;
 						this.Status(DataStatus.Sending);
-						while(i<Data_.length) {
+						while(i<data_.length) {
 							DatoC.truncate(0);
-							DatoC.append_unichar(Data_[i]);
+							DatoC.append_unichar(data_[i]);
 							this.PausaEntreBytes();
 							if(Write_Port(Gestor, DatoC.str, 1) == 1) {
 								Retorno++;
 							} else {
-								warning("No se pudo escribir (%s)\n", DatoC.str);
+								warning("Failed to write (%s)\n", DatoC.str);
 							}
 							i++;
 						}
@@ -302,30 +348,30 @@ namespace edwinspire {
 				this.Status(DataStatus.None);
 				return Retorno;
 			}
+			
 			internal bool IsEnableAndOpen() {
 				bool Retorno = false;
 				if(Enable) {
 					if(IsOpen) {
 						Retorno = true;
 					} else {
-						stderr.printf("(IsEnableAndOpen) El Puerto %s no esta abierto\n", this.Port);
+						stderr.printf("(IsEnableAndOpen) Port %s is not open\n", this.Port);
 					}
 				} else {
-					stderr.printf("(IsEnableAndOpen) El Puerto %s no esta habilitado\n", this.Port);
+					stderr.printf("(IsEnableAndOpen) Port %s is not enabled\n", this.Port);
 				}
 				return Retorno;
 			}
+			
+			/**
+			* Read char from port
+			* @return A char or 0
+			*/
 			public char ReadChar() {
-				//print("Readchar()\n");
-				//unichar Uni_ = 0;
 				char Datax = 0;
-				//stdout.printf ("char0 %c\n", Datax);
-				//Espera un tiempo hasa que lleguen los datos, caso contrario sale y genera una exepcion
+				// Espera un tiempo hasta que lleguen los datos, caso contrario sale y genera una exepcion
 				if(this.IsEnableAndOpen()) {
-					//stdout.printf ("char1 %c\n", Datax);
 					if(this.BytesToReadInternal()) {
-						//stdout.printf ("char2 %c\n", Datax);
-						//PausaEntreBytes();
 						this.Status(DataStatus.Receiving);
 						Datax = Getc(Gestor);
 					}
@@ -342,9 +388,7 @@ namespace edwinspire {
 				bool Retorno = false;
 				if(this.IsEnableAndOpen() && this.BytesToRead<1) {
 					int intentos = 0;
-					//var TimeOut = 100; // 100ms
 					Retorno = true;
-					//Timer Temporizador = new Timer();
 					TemporizadorInternoReadChar.start();
 					while(!(this.BytesToRead>0) && intentos<5) {
 						PausaEntreBytes();
@@ -357,6 +401,14 @@ namespace edwinspire {
 				TemporizadorInternoReadChar.stop();
 				return Retorno;
 			}
+			
+			/**
+			* Write log from modem
+			* 
+			* File modem.log <<BR>>
+			* ''Warning:'' Do not use this method, it is not fully implemented.
+			*/
+			// TODO Mejorar este metodo
 			public static void LogCommandAT (string text = "") {
 				try {
 					// an output file in the current working directory
@@ -381,39 +433,54 @@ namespace edwinspire {
 				}
 				catch (Error e) {
 					stderr.printf ("%s\n", e.message);
-					// return 1;
 				}
-				//  return 0;
 			}
+			
+			/**
+			* Returns the microseconds Baudrate turned into
+			*/
 			public double BaudRateTouseg() {
 				var Retorno = ((1/(double)this.BaudRate)*1000000);
 				return Retorno;
 			}
+			/**
+			* Returns the milliseconds Baudrate turned into
+			*/			
 			public double BaudRateTomseg() {
 				var Retorno = ((1/(double)this.BaudRate)*1000);
 				return Retorno;
 			}
+			/**
+			* Read data port until find \r\n (not included)
+			* @param timeout_ms_for_line Time in milliseconds that the software will wait for a line. <<BR>>
+			* You can increase this value if you have problems with the device. <<BR>>
+			* The defualt value is 0.
+			* @return Returns the line read (without \r\n) or ''null'' if not obtained some data.
+			*/			
 			public string? ReadLine(double timeout_ms_for_line = 0) {
 				return Strip(ReadLine(timeout_ms_for_line));
 			}
-			// Lee una linea desde el modem, como fin de linea se determina \r\n
+			
+			/**
+			* Read data port until find \r\n. 
+			* @param timeout_ms_for_line Time in milliseconds that the software will wait for a line. <<BR>>
+			* You can increase this value if you have problems with the device. <<BR>>
+			* The defualt value is 0.
+			* @return Returns the line read or ''null'' if not obtained some data.
+			*/	
 			public string? ReadLineWithoutStrip(double timeout_ms_for_line = 0) {
 				bool AnyCharValid = false;
 				LineaModem.truncate(0);
-				//LineaModemCR.truncate(0);
 				if(this.IsEnableAndOpen()) {
-					//Timer Temporizador = new Timer();
 					TemporizadorInternoReadLine.start();
 					if(timeout_ms_for_line<1) {
 						timeout_ms_for_line = (this.BaudRateTomseg()+1)*200;
 					}
 					char C = 0;
 					bool EncontradoFinDeLinea = false;
-					//var maxtimewaitforendline = (ulong)this.BaudRateTouseg();
 					while(!EncontradoFinDeLinea) {
 						if((TemporizadorInternoReadLine.elapsed()*1000)>timeout_ms_for_line) {
 							warning("[ReadLineWithoutStrip] Timeout to End Line, limit %s ms\n", timeout_ms_for_line.to_string());
-							//	Thread.usleep(5000);
 							EncontradoFinDeLinea = true;
 							break;
 						}
@@ -421,7 +488,6 @@ namespace edwinspire {
 							EncontradoFinDeLinea = true;
 						} else {
 							C = ReadChar();
-							//print("%c", C);
 							if(C>0) {
 								AnyCharValid=true;
 								LineaModem.append_c(C);
@@ -430,25 +496,29 @@ namespace edwinspire {
 					}
 				}
 				TemporizadorInternoReadLine.stop();
-				//stdout.printf ("%s\n", LineaModem.str);
 				string ? Retorno = null;
 				if(AnyCharValid) {
 					Retorno = LineaModem.str;
 				}
 				if(LogModem) {
 					var Cadena = new StringBuilder();
-					//Cadena.truncate(0);
 					Cadena.append_printf("<< %s\n", Retorno);
 					LogCommandAT(Cadena.str);
 				}
 				LineaModem.truncate(0);
-				//print("%s\n", Retorno);
 				return Retorno;
 			}
+			
+			/**
+			* Strip string
+			*/
 			public static string Strip(string String) {
 				return String.strip();
 			}
 			
+			/**
+			* Close port
+			*/
 			public bool Close() {
 				bool Retorno = false;
 				if(IsOpen) {
@@ -466,6 +536,10 @@ namespace edwinspire {
 				}
 				return Retorno;
 			}
+			
+			/**
+			* Port is open
+			*/
 			public bool IsOpen {
 				get {
 					bool Retorno = false;

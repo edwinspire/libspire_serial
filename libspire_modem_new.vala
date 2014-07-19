@@ -26,7 +26,9 @@ namespace edwinspire {
 	namespace Ports {
 	
 
-
+			/** 
+            * Response From Modem
+            */
 		public class Response:GLib.Object {
 			public CME CMEError = CME.None;
 			public CMS CMSError = CMS.None;
