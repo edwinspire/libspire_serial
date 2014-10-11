@@ -377,7 +377,7 @@ namespace edwinspire {
 					}
 				}
 				this.Status(DataStatus.None);
-				stdout.printf ("%c", Datax);
+				//stdout.printf ("%c", Datax);
 				return Datax;
 			}
 			internal void PausaEntreBytes() {
