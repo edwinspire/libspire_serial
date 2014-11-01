@@ -16,14 +16,14 @@ namespace edwinspire {
 			public edwinspire.Ports.StopBits StopBitsp { get; set; }
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
-		[Description (blurb = "Clase para manejar Modems", nick = "Modem")]
+		[Description (blurb = "Represents a Modem resource", nick = "Modem")]
 		public class Modem : edwinspire.Ports.SerialPort {
 			public edwinspire.Ports.LastCallReceived LastCall;
 			public Modem ();
 			public bool AT ();
-			[Description (blurb = "Acepta una llamada entrante", nick = "ATA")]
+			[Description (blurb = "Answer an incoming call", nick = "ATA")]
 			public bool ATA ();
-			[Description (blurb = "Marca en numero pasado como parametro", nick = "ATD")]
+			[Description (blurb = "It dials in phone number passed as parameter", nick = "ATD")]
 			public bool ATD (string Number);
 			public bool ATE (bool enable);
 			public int ATS (int register);
@@ -43,11 +43,11 @@ namespace edwinspire {
 			public bool ATS7_Set (int timeout = 50);
 			public bool ATS_Set (int register, int value);
 			public bool ATV (bool enable);
-			[Description (blurb = "Reset modem. Vuelve el modem a sus valores iniciales", nick = "ATZ")]
+			[Description (blurb = "The modem back to their initial values", nick = "ATZ")]
 			public bool ATZ ();
-			[Description (blurb = "Acepta una llamada entrante", nick = "Accept Call")]
+			[Description (blurb = "Answer an incoming call", nick = "Accept Call")]
 			public bool AcceptCall ();
-			[Description (blurb = "Intenta detectar el Baudrate mas adecuado para el modem", nick = "AutoBaudRate")]
+			[Description (blurb = "Attempts to detect the most suitable for the modem Baudrate", nick = "AutoBaudRate")]
 			public uint AutoBaudRate ();
 			public int AutomaticAnswerControl ();
 			public bool AutomaticAnswerControl_Set (int rings);
@@ -59,24 +59,24 @@ namespace edwinspire {
 			public bool CommandLineTerminationCharacter_Set (int character = 13);
 			public int CompletionConnectionTimeOut ();
 			public bool CompletionConnectionTimeOut_Set (int timeout = 50);
-			[Description (blurb = "Marca en numero pasado como parametro", nick = "Dial Command")]
+			[Description (blurb = "It dials in phone number passed as parameter", nick = "Dial Command")]
 			public bool DialCommand (string number);
 			public bool Echo (bool enable);
 			public bool EscapeSequense ();
 			public int EscapeSequenseCharacter ();
 			public bool EscapeSequenseCharacter_Set (int character = 43);
-			[Description (blurb = "Respuesta del modem", nick = "Receive")]
+			[Description (blurb = "Receives the answer modem", nick = "Receive")]
 			public edwinspire.Ports.Response Receive (double waitforresponse_ms = 0, bool preventDetectFalseResponse = false);
 			public int ResponseFormattingCharacter ();
 			public bool ResponseFormattingCharacter_Set (int character = 10);
 			public bool Send (string ComandoAT);
 			public bool SendSimpleCommand (string ATCommand, double waitforresponse_ms = 0);
-			[Description (blurb = "Vuelve el modem a sus valores iniciales", nick = "Set To Default Configuration")]
+			[Description (blurb = "Alias ATZ", nick = "Set To Default Configuration")]
 			public bool SetToDefaultConfiguration ();
 			public bool VerboseMode (bool enable);
-			[Description (blurb = "Señal emitida cuando se detecta el CallId de una llamada entrante", nick = "CallID")]
+			[Description (blurb = "Emits a signal with the phone number of an incoming call", nick = "CallID")]
 			public signal void CallID (string Number);
-			[Description (blurb = "Señal emitida cuando el modem esta timbrando", nick = "Ringing")]
+			[Description (blurb = "Emits a signal when it has detected that the modem is ringing for an incoming call", nick = "Ringing")]
 			public signal void Ringing ();
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
@@ -92,7 +92,6 @@ namespace edwinspire {
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
 		public class SerialPort : edwinspire.Ports.Configure {
-			public bool LogModem;
 			public SerialPort ();
 			public double BaudRateTomseg ();
 			public double BaudRateTouseg ();
@@ -106,11 +105,12 @@ namespace edwinspire {
 			public string? ReadLineWithoutStrip (double timeout_ms_for_line = 0);
 			public static string Strip (string String);
 			public bool Time (uint Time_);
-			public long Write (string Data_);
+			public long Write (string data_);
 			public SerialPort.with_args (string Port_ = "/dev/ttyS0", uint Baudrate = 2400, uint DataBits = 8, edwinspire.Ports.Parity Parity_ = Parity.NONE, edwinspire.Ports.StopBits StopBits_ = StopBits.ONE, edwinspire.Ports.HandShaking HS_ = HandShaking.NONE);
 			public bool Blocking { get; set; }
 			public int BytesToRead { get; }
 			public bool IsOpen { get; }
+			public bool LogModem { get; set; }
 			public signal void Status (edwinspire.Ports.DataStatus Status);
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
@@ -121,6 +121,7 @@ namespace edwinspire {
 			public LastCallReceived ();
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
+		[Description (blurb = "GSM Equipment and Network Error Codes", nick = "CME")]
 		public enum CME {
 			PhoneFailure,
 			NoConnectionToPhone,
@@ -158,35 +159,123 @@ namespace edwinspire {
 			ServiceProviderPersonalization_PUK_Required,
 			CorporatePersonalization_PIN_Required,
 			CorporatePersonalization_PUK_Required,
+			PHSIM_PUK_Required,
 			Unknown,
+			Illegal_MS,
+			Illegal_ME,
+			GPRS_Services_Not_Allowed,
+			PLMN_Not_Allowed,
+			Location_Area_Not_Allowed,
+			Roaming_Not_Allowed_In_This_Location_Area,
+			Operation_Temporary_Not_Allowed,
+			Service_Operation_Not_Supported,
+			Requested_Service_Option_Not_Subscribed,
+			Service_Option_Temporary_Out_Of_Order,
+			Unspecified_GPRS_Error,
+			PDP_Authentication_Failure,
+			Invalid_Mobile_Class,
+			Operation_Temporarily_Not_Allowed,
+			Call_Barred,
+			Phone_Is_Busy,
+			User_Abort,
+			Invalid_Dial_String,
+			SS_Not_Executed,
+			SIM_Blocked,
+			Invalid_Block,
 			None
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
+		[Description (blurb = "These are the error codes for +CMS ERROR", nick = "CMS")]
 		public enum CMS {
-			Phonefailure,
-			SMSServiceOfPhoneReserved,
+			None,
+			UnassignedNumber,
+			OperatorDeterminedBarring,
+			CallBared,
+			ShortMessageTransferRejected,
+			DestinationOutOfService,
+			UnindentifiedSubscriber,
+			FacilityRejected,
+			UnknownSubscriber,
+			NetworkOutOfOrder,
+			TemporaryFailure,
+			Congestion,
+			RecourcesUnavailable,
+			RequestedFacilityNotSubscribed,
+			RequestedFacilityNotImplemented,
+			InvalidShortMessageTransferReferenceValue,
+			InvalidMessageUnspecified,
+			InvalidMandatoryInformation,
+			MessageTypeNonExistentOrNotImplemented,
+			MessageNotCompatibleWithShortMessageProtocol,
+			InformationElementNonExistentOrNotImplemente,
+			ProtocolErrorUnspecified,
+			InternetworkingUnspecified,
+			TelematicInternetworkingNotSupported,
+			ShortMessageType0NotSupported,
+			CannotReplaceShortMessage,
+			UnspecifiedTPPIDError,
+			DataCodeSchemeNotSupported,
+			MessageClassNotSupported,
+			UnspecifiedTPDCSError,
+			CommandCannotBeActioned,
+			CommandUnsupported,
+			UnspecifiedTPCommandError,
+			TPDUNotSupported,
+			SCBusy,
+			NoSCSubscription,
+			SCSystemFailure,
+			InvalidSMEAddress,
+			DestinationSMEBarred,
+			SMRejectedDuplicateSM,
+			TPVPFNotSupported,
+			TPVPNotSupported,
+			D0_SIM_SMS_StorageFull,
+			NoSMS_StorageCapabilityInSIM,
+			ErrorInMS,
+			MemoryCapacityExceeded,
+			SimApplicationToolkitBusy,
+			SIM_DataDownloadError,
+			UnspecifiedErrorCause,
+			ME_Failure,
+			SMS_ServiceOf_ME_Reserved,
 			OperationNotAllowed,
 			OperationNotSupported,
-			InvalidPDUModeParameter,
-			InvalidTextModeParameter,
+			Invalid_PDU_ModeParameter,
+			Invalid_Text_ModeParameter,
 			SIMNotInserted,
-			SIMPINNecessary,
-			PH_SIMPINNecessary,
-			SIMFailure,
-			SIMBusy,
-			SIMWrong,
+			SIM_PIN_Required,
+			PH_SIM_PIN_Required,
+			SIM_Failure,
+			SIM_Busy,
+			SIM_Wrong,
+			SIM_PUK_Required,
+			SIM_PIN2_Required,
+			SIM_PUK2_Required,
 			MemoryFailure,
 			InvalidMemoryIndex,
 			MemoryFull,
-			SMSCAddressUnknown,
+			SMSC_AddressUnknown,
 			NoNetworkService,
 			NetworkTimeout,
+			No_CNMA_Expected,
 			UnknownError,
-			ManufacturerSpecific,
-			None
+			UserAbort,
+			UnableToStore,
+			InvalidStatus,
+			DeviceBusyOrInvalidCharacterInString,
+			InvalidLength,
+			InvalidCharacterInPDU,
+			InvalidParameter,
+			InvalidLengthOrCharacter,
+			InvalidCharacterInText,
+			TimerExpired,
+			OperationTemporaryNotAllowed,
+			SIM_NotReady,
+			CellBroadcastErrorUnknown,
+			ProtocolStackBusy
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
-		[Description (blurb = "Tono DTMF permitidos", nick = "DTMF")]
+		[Description (blurb = "DTMF tones", nick = "DTMF")]
 		public enum DTMF {
 			[Description (blurb = "DTMF 0", nick = "0")]
 			Zero,
@@ -222,42 +311,43 @@ namespace edwinspire {
 			D
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
-		[Description (blurb = "Estado del modem", nick = "Data Status")]
+		[Description (blurb = "Specifies the state of the data modem", nick = "Data Status")]
 		public enum DataStatus {
-			[Description (blurb = "Modem no eta realizando ninguna accion", nick = "None")]
+			[Description (blurb = "Modem not performing some action", nick = "None")]
 			None,
-			[Description (blurb = "Enviando datos al modem", nick = "Sending")]
+			[Description (blurb = "Sending data to the modem", nick = "Sending")]
 			Sending,
-			[Description (blurb = "Recibiendo datos del modem", nick = "Receiving")]
+			[Description (blurb = "Receiving data from the modem", nick = "Receiving")]
 			Receiving
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
-		[Description (blurb = "Especifica el protocolo de control utilizado para establecer la comunicacion con el puerto serie", nick = "HandShaking")]
+		[Description (blurb = "Specifies the control protocol used to establish communication with the serial port", nick = "HandShaking")]
 		public enum HandShaking {
-			[Description (blurb = "No se utiliza ningun control para el protocol de enlace", nick = "NONE")]
+			[Description (blurb = "No control is not used for the protocol binding", nick = "NONE")]
 			NONE,
-			[Description (blurb = "Controles por hardware, Solicitud de encio (RTS) y Listo para enviar (CTS)", nick = "RTS-CTS")]
+			[Description (blurb = "Controls hardware, Ready to Send (RTS) and Clear to Send (CTS)", nick = "RTS-CTS")]
 			RTS_CTS,
-			[Description (blurb = "Protocolo de control de software XON/XOFF", nick = "XOnXOff")]
+			[Description (blurb = "Protocol software control XON / XOFF", nick = "XOnXOff")]
 			XOnXOff,
-			[Description (blurb = "Utiliza tanto RTS CTS como XON/XOFF", nick = "DTR-DSR")]
+			[Description (blurb = "Use both RTS-CTS and XON / XOFF", nick = "DTR-DSR")]
 			DTR_DSR
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
-		[Description (blurb = "Especifica el bit de paridad", nick = "Parity")]
+		[Description (blurb = "Specifies the parity bit for the serial communication", nick = "Parity")]
 		public enum Parity {
-			[Description (blurb = "No se produce una comprobación de paridad", nick = "NONE")]
+			[Description (blurb = "Without testing calculation parity bit", nick = "NONE")]
 			NONE,
-			[Description (blurb = "Establece el bit de paridad de forma que el recuento de bits establecidos sea un número impar", nick = "ODD")]
+			[Description (blurb = "Sets the parity bit so that the count of bits set is an odd number", nick = "ODD")]
 			ODD,
-			[Description (blurb = "Establece el bit de paridad de forma que el recuento de bits establecidos sea un número par", nick = "EVEN")]
+			[Description (blurb = "Sets the parity bit so that the count of bits set is an even number", nick = "EVEN")]
 			EVEN,
-			[Description (blurb = "Establece el conjunto de bits de paridad en 1", nick = "MARK")]
+			[Description (blurb = "Sets the parity bit set to 1", nick = "MARK")]
 			MARK,
-			[Description (blurb = "Establece el conjunto de bits de paridad en 0", nick = "SPACE")]
+			[Description (blurb = "Sets the parity bit set to 0", nick = "SPACE")]
 			SPACE
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
+		[Description (blurb = "Response from modem", nick = "ResponseCode")]
 		public enum ResponseCode {
 			OK,
 			CONNECT,
@@ -267,20 +357,20 @@ namespace edwinspire {
 			NODIALTONE,
 			BUSY,
 			NOANSWER,
-			[Description (blurb = "Responde con ERROR modem GSM", nick = "ERROR CMS")]
+			[Description (blurb = "CMS (GSM Network Related) error", nick = "ERROR CMS")]
 			ERROR_CMS,
-			[Description (blurb = "Responde con ERROR CME", nick = "ERROR CME")]
+			[Description (blurb = "CME (GSM Equipment Related) error", nick = "ERROR CME")]
 			ERROR_CME,
 			UNKNOW
 		}
 		[CCode (cheader_filename = "libspire_serial.h")]
-		[Description (blurb = "Especifica el número de bits de parada utilizado", nick = "StopBits")]
+		[Description (blurb = "Specifies the number of stop bits used", nick = "StopBits")]
 		public enum StopBits {
-			[Description (blurb = "No se utiliza ningún bit de parada", nick = "NONE")]
+			[Description (blurb = "No stop bit is used", nick = "NONE")]
 			NONE,
-			[Description (blurb = "Se utiliza un bit de parada", nick = "ONE")]
+			[Description (blurb = "One stop bit is used", nick = "ONE")]
 			ONE,
-			[Description (blurb = "Se utilizan dos bits de parada", nick = "TWO")]
+			[Description (blurb = "Two stop bit is used", nick = "TWO")]
 			TWO
 		}
 	}
