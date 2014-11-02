@@ -434,6 +434,7 @@ edwinspirePortsSerialPort* edwinspire_ports_serial_port_new_with_args (const gch
 edwinspirePortsSerialPort* edwinspire_ports_serial_port_construct_with_args (GType object_type, const gchar* Port_, guint Baudrate, guint DataBits, edwinspirePortsParity Parity_, edwinspirePortsStopBits StopBits_, edwinspirePortsHandShaking HS_);
 edwinspirePortsSerialPort* edwinspire_ports_serial_port_new (void);
 edwinspirePortsSerialPort* edwinspire_ports_serial_port_construct (GType object_type);
+gchar* edwinspire_ports_serial_port_text_as_unicode (const gchar* text);
 gboolean edwinspire_ports_serial_port_DiscardBuffer (edwinspirePortsSerialPort* self);
 gchar** edwinspire_ports_serial_port_Get_PortName (edwinspirePortsSerialPort* self, int* result_length1);
 gboolean edwinspire_ports_serial_port_Time (edwinspirePortsSerialPort* self, guint Time_);

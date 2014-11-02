@@ -182,6 +182,27 @@ namespace edwinspire {
 				this.Port = "/dev/ttyS0";
 				this.Enable = true;
 			}
+			
+			
+		public static string text_as_unicode(string text){
+			
+			var msg = new StringBuilder();
+			
+			int CLength = text.length;
+			unichar caracter;
+			if(CLength > 0) {
+				for (int i = 0; text.get_next_char(ref i, out caracter);) {
+					if(i>CLength) {
+						break;
+					}
+					if(caracter.validate()) {
+						msg.append_unichar(caracter);
+					}
+				}
+			}
+			return msg.str;
+		}
+			
 			// Configure port with arguments
 			private bool Set_Port() {
 				bool Retorno = false;
@@ -522,16 +543,19 @@ namespace edwinspire {
 			public bool Close() {
 				bool Retorno = false;
 				if(IsOpen) {
-					if(Close_Port(Gestor) == 0) {
-						Retorno = true;
+				
+					int i = 0;
+					Retorno = true;
+									
+					while(Close_Port(Gestor) != 0){
 						Thread.usleep(100000);
-					} else if(Close_Port(Gestor) == 0) {
-						Retorno = true;
-						Thread.usleep(100000);
-					} else if(Close_Port(Gestor) == 0) {
-						Retorno = true;
-						Thread.usleep(100000);
+						if(i>20){
+						 	Retorno = false;
+						 	break;
+						}
+						i++;
 					}
+
 					Gestor = -1;
 				}
 				return Retorno;

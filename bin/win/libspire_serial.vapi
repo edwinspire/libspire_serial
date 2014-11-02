@@ -106,6 +106,7 @@ namespace edwinspire {
 			public static string Strip (string String);
 			public bool Time (uint Time_);
 			public long Write (string data_);
+			public static string text_as_unicode (string text);
 			public SerialPort.with_args (string Port_ = "/dev/ttyS0", uint Baudrate = 2400, uint DataBits = 8, edwinspire.Ports.Parity Parity_ = Parity.NONE, edwinspire.Ports.StopBits StopBits_ = StopBits.ONE, edwinspire.Ports.HandShaking HS_ = HandShaking.NONE);
 			public bool Blocking { get; set; }
 			public int BytesToRead { get; }
